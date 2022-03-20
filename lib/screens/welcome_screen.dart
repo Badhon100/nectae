@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nectar/screens/home_page.dart';
+import 'package:nectar/screens/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({ Key? key }) : super(key: key);
@@ -54,7 +54,7 @@ class WelcomeScreen extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: (){
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomePage()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
                     }, 
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
