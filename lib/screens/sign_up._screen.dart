@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nectar/screens/login_screen.dart';
 import 'package:nectar/screens/widgets/custom_button.dart';
 import 'package:nectar/screens/widgets/custom_textfield.dart';
@@ -19,6 +20,7 @@ TextEditingController? userName = TextEditingController();
  TextEditingController password = TextEditingController();
   // ignore: prefer_typing_uninitialized_variables
   var currentFocus;
+  bool iconStatus = false;
   @override
   Widget build(BuildContext context) {
 
@@ -61,10 +63,10 @@ TextEditingController? userName = TextEditingController();
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text(
+                           Text(
                           "Sign Up",
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 30.sp,
                             fontWeight: FontWeight.w500
                           ),
                         ),
@@ -77,35 +79,51 @@ TextEditingController? userName = TextEditingController();
                           ],
                         ),
                         
-                        SizedBox(
-                          height: 80,
-                          width: 350,
-                          child: CustomTextField(
-                            obscureText: false, 
-                            text: "Username",
-                            controller: userName,),
-                            
-                        ),
-                        SizedBox(
-                          height: 80,
-                          width: 350,
-                          child: CustomTextField(
-                            obscureText: false, 
-                            text: "E-mail",
-                            controller: email,
-                            )
-                        ),
-                        SizedBox(
-                          height: 80,
-                          width: 350,
-                          child: CustomTextField(
-                            obscureText: true, 
-                            text: "Password",
-                            controller: password,
-                            )
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          child: SizedBox(
+                            height: 80.h,
+                            width: 350.w,
+                            child: CustomTextField(
+                              obscureText: false, 
+                              text: "Username",
+                              controller: userName,),
+                              
+                          ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          child: SizedBox(
+                            height: 80.h,
+                            width: 350.w,
+                            child: CustomTextField(
+                              obscureText: false, 
+                              text: "E-mail",
+                              controller: email,
+                              )
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          child: SizedBox(
+                            height: 80.h,
+                            width: 350.w,
+                            child: CustomTextField(
+                              obscureText: (iconStatus == false)?true:false, 
+                              text: "Password",
+                              suffixIcon: IconButton(
+                                icon: (iconStatus == false)?const Icon(Icons.visibility_off): const Icon(Icons.visibility), 
+                                onPressed: (){
+                                  setState(() {
+                                    iconStatus = !iconStatus;
+                                  });
+                                },
+                              )
+                            )
+                          ),
+                        ),
+                        Padding(
+                          padding:  EdgeInsets.only(left: 20.w),
                           child: Wrap(
                             spacing: 5,
                             children: [

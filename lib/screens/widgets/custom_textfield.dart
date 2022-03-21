@@ -6,12 +6,12 @@ class CustomTextField extends StatelessWidget {
   String text;
   bool obscureText = false;
   TextEditingController? controller;
-
+  IconButton? suffixIcon;
   CustomTextField({ Key? key,
   required this.obscureText, 
   required this.text,
   this.controller,
-
+  this. suffixIcon,
   }) : super(key: key);
 
   @override
@@ -19,10 +19,11 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         label: Text(text),
-
+        suffixIcon: suffixIcon
       ),
       obscureText: obscureText,
       controller: controller,
+      
     );
   }
 }
