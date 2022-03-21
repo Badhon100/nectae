@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nectar/screens/home_page.dart';
 import 'package:nectar/screens/sign_up._screen.dart';
-import 'package:nectar/screens/widgets/custom_button.dart';
 import 'package:nectar/screens/widgets/custom_textfield.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,10 +20,32 @@ class _LoginScreenState extends State<LoginScreen> {
  
   // ignore: prefer_typing_uninitialized_variables
   var currentFocus;
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   bool iconStatus = false;
 
-
+  login()async{
+    try {
+  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: email.text,
+    password: password.text
+  );
+  var authCredencial = userCredential.user;
+  if(authCredencial!.uid.isNotEmpty){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomePage()));
+  }
+  else{
+    Fluttertoast.showToast(msg: 'Something went wrong');
+  }
+} on FirebaseAuthException catch (e) {
+  if (e.code == 'user-not-found') {
+    Fluttertoast.showToast(msg: 'No user found for that email.', );
+  } else if (e.code == 'wrong-password') {
+    Fluttertoast.showToast(msg: 'Wrong password provided for that user.');
+  }
+}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: CustomTextField(
                               obscureText: false, 
                               text: "E-mail",
+                              controller: email,
                             )
                           ),
                           SizedBox(
@@ -94,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: CustomTextField(
                               obscureText: (iconStatus == false)?true:false, 
                               text: "Password",
+                              controller: password,
                               suffixIcon: IconButton(
                                 icon: (iconStatus == false)?const Icon(Icons.visibility_off): const Icon(Icons.visibility), 
                                 onPressed: (){
@@ -108,10 +134,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             alignment: Alignment.bottomRight,
                             child:  TextButton(
                               child: const Text("Forgot Password?", style: TextStyle(color: Colors.black),),
-                              onPressed: (){},
+                              onPressed: (){
+                                login();
+                              },
                             ),
                           ),
-                          CustomButton(onPressed: (){}, text: "Login"),
+                          ElevatedButton(onPressed: () => login(), child: const Text("login")),
+                          // CustomButton(onPressed: (){}, text: "Login"),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

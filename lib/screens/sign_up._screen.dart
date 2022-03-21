@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nectar/screens/login_screen.dart';
 import 'package:nectar/screens/widgets/custom_button.dart';
 import 'package:nectar/screens/widgets/custom_textfield.dart';
@@ -21,6 +23,38 @@ TextEditingController? userName = TextEditingController();
   // ignore: prefer_typing_uninitialized_variables
   var currentFocus;
   bool iconStatus = false;
+
+  signUp()async{
+    try {
+  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    email: email.text,
+    password: password.text,
+  );
+
+  var authCredencial = userCredential.user;
+  if(authCredencial!.uid.isNotEmpty){
+    Fluttertoast.showToast(msg: 'Successfully registered');
+  }
+  else{
+    Fluttertoast.showToast(msg: 'Something went wrong');
+  }
+
+
+} on FirebaseAuthException catch (e) {
+  if (e.code == 'weak-password') {
+    Fluttertoast.showToast(msg: 'The password provided is too weak.');
+    
+  } else if (e.code == 'email-already-in-use') {
+    
+    Fluttertoast.showToast(msg: 'The account already exists for that email.');
+  }
+} catch (e) {
+  
+  Fluttertoast.showToast(msg: 'Something went wrong');
+}
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -154,7 +188,7 @@ TextEditingController? userName = TextEditingController();
                         ),
                         CustomButton(
                           text: "Sign Up",
-                          onPressed: (){},
+                          onPressed: signUp
                         ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
