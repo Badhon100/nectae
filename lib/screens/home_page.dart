@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nectar/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:nectar/screens/bottom_navigation_screens/explore_screen.dart';
 import 'package:nectar/screens/bottom_navigation_screens/favorite_screen.dart';
-import 'package:nectar/screens/bottom_navigation_screens/store_scrren.dart';
+import 'package:nectar/screens/bottom_navigation_screens/store_screen.dart';
 
 import 'bottom_navigation_screens/account_screen.dart';
 

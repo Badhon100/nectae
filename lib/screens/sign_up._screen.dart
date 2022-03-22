@@ -32,6 +32,7 @@ TextEditingController? userName = TextEditingController();
   );
 
   var authCredencial = userCredential.user;
+  print(authCredencial);
   if(authCredencial!.uid.isNotEmpty){
     Fluttertoast.showToast(msg: 'Successfully registered');
   }
@@ -152,7 +153,8 @@ TextEditingController? userName = TextEditingController();
                                     iconStatus = !iconStatus;
                                   });
                                 },
-                              )
+                              ),
+                              controller: password,
                             )
                           ),
                         ),
@@ -186,10 +188,7 @@ TextEditingController? userName = TextEditingController();
                             ],
                           ),
                         ),
-                        CustomButton(
-                          text: "Sign Up",
-                          onPressed: signUp
-                        ),
+                        ElevatedButton(onPressed: () => signUp(), child: const Text("sign up")),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
